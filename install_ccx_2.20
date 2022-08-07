@@ -53,7 +53,7 @@ if ( $solver == 1 ) {
     $fortran_compiler =~ s/.*gfortran/gfortran/;
 } # end if
 
-if ( $solver == 2 ) { 
+if ( $solver == 2 ) {
 $fortran_compiler = `which ifort`;
 if ( $fortran_compiler !~ /ifort/ ) {
 	print "\n**** Intel fortran compiler not installed or configured. If you have already installed it, try sourcing the environment variables.\nIf you have do not have it, then you can download it for free from Intel.com\n\n";
@@ -61,7 +61,7 @@ if ( $fortran_compiler !~ /ifort/ ) {
 			    }
 	else { $fortran_compiler = 'ifort'; }
 				}
-if ( $solver == 3 ) { 
+if ( $solver == 3 ) {
 $fortran_compiler = `which mpiifort`;
 if ( $fortran_compiler !~ /mpiifort/ ) {
 	print "\n**** Intel MPI fortran compiler not installed or configured. If you have already installed it, try sourcing the environment variables.\nIf you have do not have it, then you can download it for free from Intel.com\n\n";
@@ -69,7 +69,7 @@ if ( $fortran_compiler !~ /mpiifort/ ) {
 			    }
 	else { $fortran_compiler = 'mpiifort'; }
 				}
-if ( $fortran_compiler !~ /gfortran|ifort|mpiifort/ ) 
+if ( $fortran_compiler !~ /gfortran|ifort|mpiifort/ )
      { print "\n**** gfortran compiler not found! Install by doing as root: 'sudo yum install gcc-gfortran or sudo apt-get install gfortran'\n\n"; exit 1; }
 
 } # end sub
@@ -106,7 +106,7 @@ if ( ! -e 'spooles.2.2.tar' ) { `wget wget http://www.netlib.org/linalg/spooles/
 if ( ! -e 'ccx_2.20.src.tar' ) { `wget http://www.dhondt.de/ccx_2.20.src.tar.bz2`; }
 if ( ! -e 'ccx_2.20.test.tar' ) { `wget http://www.dhondt.de/ccx_2.20.test.tar.bz2`; }
 if ( ! -e 'ccx_2.20.SPOOLEScorrection.tar' ) { `wget http://www.dhondt.de/ccx_2.20.SPOOLEScorrection.tar.bz2`; }
-#if ( ! -e 'Makefile' ) { `wget http://www.feacluster.com/install/src/Makefile`; }
+if ( ! -e 'Makefile' ) { `wget https://raw.githubusercontent.com/mdudekFEA/ccx2.20_automatic_install/main/Makefile`; }
 
 if ( $solver == 3 ) { if ( ! -e 'pardiso_mpi.tar.gz' ) { `wget http://www.feacluster.com/install/src/pardiso_mpi.tar.gz`; } }
 
@@ -150,12 +150,12 @@ $pwd = "$pwd\\/ARPACK";
 `perl -i -wpe 's/^FFLAGS.*/FFLAGS  \= -O/' ARPACK/ARmake.inc`;
 `perl -i -wpe 's/      EXTERNAL/\*     EXTERNAL/' ARPACK/UTIL/second.f`;
 
-if ( $fortran_compiler =~ /ifort/ ) { 
+if ( $fortran_compiler =~ /ifort/ ) {
 `perl -i -wpe 's/^FFLAGS  \= -O/FFLAGS  \= -O -i8/' ARPACK/ARmake.inc`;
 						}
 my $make = `which make`;
-if ( $make =~ /usr/ ) 		{		 
-`perl -i -wpe 's/MAKE    \= .*/MAKE    \= \\/usr\\/bin\\/make/' ARPACK/ARmake.inc`;				}	
+if ( $make =~ /usr/ ) 		{
+`perl -i -wpe 's/MAKE    \= .*/MAKE    \= \\/usr\\/bin\\/make/' ARPACK/ARmake.inc`;				}
 
 } # end sub
 
@@ -231,29 +231,29 @@ if ( $fortran_compiler =~ /^ifort/ ) { `mv ccx_2.20_MT ccx_2.20_MT_PARDISO`; $ex
 
 sub check_success {
 
-if ( -e $executable ) {  
+if ( -e $executable ) {
     if ( $solver == 3 ) { print "\n** Done! - To run see this example:
 
 Example commands to run on two hosts
 ====================================
 
-export OMP_NUM_THREADS=$cpus 
+export OMP_NUM_THREADS=$cpus
 mpirun -np 2 -ppn 1 -hosts=host1,host2 ./$executable input_deck
 
-For best results, keep the number of MPI processes ( -np ) a multiple of the power of 2, i.e 2, 4 or 8 . 
+For best results, keep the number of MPI processes ( -np ) a multiple of the power of 2, i.e 2, 4 or 8 .
 Using -np 3 can be slower than -np 2 or -np 4 .
 
 Also, you can experiment with more than one MPI process per host and reducing the number of OMP_NUM_THREADS per process accordingly.
 
-For example, on a 40 cpu machine you can try: 
+For example, on a 40 cpu machine you can try:
 
 export OMP_NUM_THREADS=10
 mpirun -np 4 ./$executable input_deck
 
-*** Some models may crash due to a known bug with Intel's cluster sparse solver. If that happens, try setting this environment 
+*** Some models may crash due to a known bug with Intel's cluster sparse solver. If that happens, try setting this environment
 variable:
 
-export PARDISO_MPI_MATCHING=1\n"; 
+export PARDISO_MPI_MATCHING=1\n";
     } # end if
     else { print "\n** Done! - To run, enter ./$executable . Set number of cpus to use by doing:\n\nexport OMP_NUM_THREADS=$cpus\n"; }
 } #end if
@@ -274,7 +274,7 @@ if ( $answer !~ /^y$/i ) { print "\nSkipping test suite\n"; return; }
 
 my $pwd = `pwd`;
 chomp ($pwd);
-if ( $solver == 3 ) { $pwd = 'export PARDISO_MPI_MATCHING=1;mpirun -np 2 ' . $pwd;  } 
+if ( $solver == 3 ) { $pwd = 'export PARDISO_MPI_MATCHING=1;mpirun -np 2 ' . $pwd;  }
 
 $pwd .= "/$executable";
 $pwd = quotemeta $pwd;
