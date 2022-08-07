@@ -100,8 +100,8 @@ if ( -e 'ARPACK' ) { print "\nPlease remove folder ARPACK before running this in
 if ( -e 'SPOOLES.2.2' ) { print "\nPlease remove folder SPOOLES.2.2 before running this installer\n"; exit 1; }
 if ( -e 'CalculiX' ) { print "\nPlease remove folder CalculiX before running this installer\n"; exit 1; }
 
-if ( ! glob ( 'arpack96.tar*') ) { `wget https://www.caam.rice.edu/software/ARPACK/SRC/arpack96.tar.gz`; }
-if ( ! -e 'patch.tar' ) { `wget https://www.caam.rice.edu/software/ARPACK/SRC/patch.tar.gz`; }
+if ( ! glob ( 'arpack96.tar*') ) { `wget http://www.feacluster.com/install/src/arpack96.tar.gz`; }
+if ( ! -e 'patch.tar' ) { `wget http://www.feacluster.com/install/src/patch.tar.gz`; }
 if ( ! -e 'spooles.2.2.tar' ) { `wget http://www.netlib.org/linalg/spooles/spooles.2.2.tgz`;}
 if ( ! -e 'ccx_2.20.src.tar' ) { `wget http://www.dhondt.de/ccx_2.20.src.tar.bz2`; }
 if ( ! -e 'ccx_2.20.test.tar' ) { `wget http://www.dhondt.de/ccx_2.20.test.tar.bz2`; }
